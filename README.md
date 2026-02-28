@@ -1,36 +1,174 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 Bookify – Personal Book Management App
 
-## Getting Started
+Bookify is a full-stack web application that helps users manage their personal reading library.  
+Users can add books, track reading status, edit details, and manage their collection securely with authentication.
 
-First, run the development server:
+🔗 **Live App:** https://bookify-tau-plum.vercel.app  
+🔗 **GitHub Repo:** https://github.com/Mithivk/Bookify
 
-```bash
+---
+
+## ✨ Features
+
+### 🔐 Authentication
+- User signup & login
+- Secure JWT-based authentication
+- HTTP-only cookies
+- Protected routes
+- Logout functionality
+
+### 📖 Book Management
+- Add new books
+- Edit book details (title, author, tags, status)
+- Delete books with confirmation
+- Track reading status:
+  - Want to Read
+  - Reading
+  - Completed
+- Tags support for categorization
+
+### 📊 Dashboard
+- Personalized dashboard
+- Real-time statistics:
+  - Total books
+  - Want to Read
+  - Reading
+  - Completed
+- Status updates instantly reflect in stats
+
+### 🎨 UI & UX
+- Clean and responsive UI
+- Tailwind CSS styling
+- Modal-based edit & delete flows
+- Loading indicators
+- Client-side and server-side validation
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- Next.js 14 (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+
+### Backend
+- Next.js API Routes
+- MongoDB Atlas
+- Mongoose
+- JWT Authentication
+- bcryptjs
+
+### Deployment
+- Vercel
+- MongoDB Atlas
+
+---
+
+## 🔌 API Documentation
+
+### Auth APIs
+
+#### `POST /api/auth/signup`
+Create a new user account.
+
+**Request Body**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Response
+
+201 Created
+
+Sets authentication cookie
+
+POST /api/auth/login
+
+Authenticate existing user.
+
+Request Body
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Response
+
+200 OK
+
+Sets authentication cookie
+
+POST /api/auth/logout
+
+Logs out the user.
+
+Response
+
+200 OK
+
+Clears authentication cookie
+
+Book APIs (Protected)
+GET /api/books
+
+Fetch all books for the logged-in user.
+
+POST /api/books
+
+Add a new book.
+
+Request Body
+
+{
+  "title": "Atomic Habits",
+  "author": "James Clear",
+  "tags": ["self-help"],
+  "status": "READING"
+}
+PUT /api/books/[id]
+
+Update book details or reading status.
+
+DELETE /api/books/[id]
+
+Delete a book.
+
+🔐 Environment Variables
+
+Create a .env.local file in the project root:
+
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/bookify
+JWT_SECRET=your_super_secret_key
+NODE_ENV=development
+
+▶️ Running Locally
+git clone https://github.com/Mithivk/Bookify.git
+cd Bookify
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Application runs at:
+http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🚀 Deployment (Vercel)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Push the repository to GitHub
 
-## Learn More
+Import the project into Vercel
 
-To learn more about Next.js, take a look at the following resources:
+Add environment variables in Vercel dashboard
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Allow MongoDB Atlas IP access (0.0.0.0/0)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploy
 
-## Deploy on Vercel
+Live URL:
+https://bookify-tau-plum.vercel.app
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
