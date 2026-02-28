@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 import { signToken } from "@/lib/auth";
-
+export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
