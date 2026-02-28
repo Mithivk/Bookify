@@ -1,9 +1,9 @@
 # 📚 Bookify – Personal Book Management App
 
-Bookify is a full-stack web application that helps users manage their personal reading library.  
+Bookify is a full-stack web application that helps users manage their personal reading library.
 Users can add books, track reading status, edit details, and manage their collection securely with authentication.
 
-🔗 **Live App:** https://bookify-tau-plum.vercel.app  
+🔗 **Live App:** https://bookify-tau-plum.vercel.app
 🔗 **GitHub Repo:** https://github.com/Mithivk/Bookify
 
 ---
@@ -11,34 +11,30 @@ Users can add books, track reading status, edit details, and manage their collec
 ## ✨ Features
 
 ### 🔐 Authentication
-- User signup & login
-- Secure JWT-based authentication
-- HTTP-only cookies
-- Protected routes
+- User signup & login with secure JWT-based authentication
+- HTTP-only cookies for token storage
+- Protected routes with automatic redirects
 - Logout functionality
 
 ### 📖 Book Management
-- Add new books
-- Edit book details (title, author, tags, status)
-- Delete books with confirmation
-- Track reading status:
-  - Want to Read
-  - Reading
-  - Completed
+- Add, edit, and delete books
+- Track reading status: `Want to Read` · `Reading` · `Completed`
 - Tags support for categorization
+- Delete confirmation flow
 
 ### 📊 Dashboard
-- Personalized dashboard
-- Real-time statistics:
-  - Total books
-  - Want to Read
-  - Reading
-  - Completed
-- Status updates instantly reflect in stats
+- Personalized dashboard with real-time statistics
+- Stats update instantly on status change:
+
+| Stat | Description |
+|------|-------------|
+| Total Books | All books in your library |
+| Want to Read | Books queued up |
+| Reading | Currently in progress |
+| Completed | Finished reads |
 
 ### 🎨 UI & UX
-- Clean and responsive UI
-- Tailwind CSS styling
+- Clean, responsive UI with Tailwind CSS
 - Modal-based edit & delete flows
 - Loading indicators
 - Client-side and server-side validation
@@ -47,28 +43,18 @@ Users can add books, track reading status, edit details, and manage their collec
 
 ## 🛠 Tech Stack
 
-### Frontend
-- Next.js 14 (App Router)
-- React
-- TypeScript
-- Tailwind CSS
-
-### Backend
-- Next.js API Routes
-- MongoDB Atlas
-- Mongoose
-- JWT Authentication
-- bcryptjs
-
-### Deployment
-- Vercel
-- MongoDB Atlas
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 15 (App Router), React, TypeScript, Tailwind CSS |
+| Backend | Next.js API Routes, MongoDB Atlas, Mongoose |
+| Auth | JWT, bcryptjs, HTTP-only Cookies |
+| Deployment | Vercel, MongoDB Atlas |
 
 ---
 
-## 🔌 API Documentation
+## 🔌 API Reference
 
-### Auth APIs
+### Auth
 
 #### `POST /api/auth/signup`
 Create a new user account.
@@ -80,95 +66,84 @@ Create a new user account.
   "email": "john@example.com",
   "password": "password123"
 }
+```
 
-Response
+**Response:** `201 Created` — Sets authentication cookie
 
-201 Created
+---
 
-Sets authentication cookie
+#### `POST /api/auth/login`
+Authenticate an existing user.
 
-POST /api/auth/login
-
-Authenticate existing user.
-
-Request Body
-
+**Request Body**
+```json
 {
   "email": "john@example.com",
   "password": "password123"
 }
+```
 
-Response
+**Response:** `200 OK` — Sets authentication cookie
 
-200 OK
+---
 
-Sets authentication cookie
+#### `POST /api/auth/logout`
+Logs out the current user.
 
-POST /api/auth/logout
+**Response:** `200 OK` — Clears authentication cookie
 
-Logs out the user.
+---
 
-Response
+### Books (Protected Routes)
 
-200 OK
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/books` | Fetch all books for the logged-in user |
+| `POST` | `/api/books` | Add a new book |
+| `PUT` | `/api/books/[id]` | Update book details or reading status |
+| `DELETE` | `/api/books/[id]` | Delete a book |
 
-Clears authentication cookie
-
-Book APIs (Protected)
-GET /api/books
-
-Fetch all books for the logged-in user.
-
-POST /api/books
-
-Add a new book.
-
-Request Body
-
+#### `POST /api/books` — Request Body
+```json
 {
   "title": "Atomic Habits",
   "author": "James Clear",
   "tags": ["self-help"],
   "status": "READING"
 }
-PUT /api/books/[id]
+```
 
-Update book details or reading status.
+---
 
-DELETE /api/books/[id]
+## 🔐 Environment Variables
 
-Delete a book.
-
-🔐 Environment Variables
-
-Create a .env.local file in the project root:
-
+Create a `.env.local` file in the project root:
+```env
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/bookify
 JWT_SECRET=your_super_secret_key
 NODE_ENV=development
+```
 
-▶️ Running Locally
+---
+
+## ▶️ Running Locally
+```bash
 git clone https://github.com/Mithivk/Bookify.git
 cd Bookify
 npm install
 npm run dev
+```
 
-Application runs at:
-http://localhost:3000
+App runs at **http://localhost:3000**
 
-🚀 Deployment (Vercel)
+---
 
-Push the repository to GitHub
+## 🚀 Deploying to Vercel
 
-Import the project into Vercel
+1. Push the repository to GitHub
+2. Import the project at [vercel.com](https://vercel.com)
+3. Add environment variables in the Vercel dashboard
+4. Allow all IPs in MongoDB Atlas Network Access (`0.0.0.0/0`)
+5. Deploy
 
-Add environment variables in Vercel dashboard
-
-Allow MongoDB Atlas IP access (0.0.0.0/0)
-
-Deploy
-
-Live URL:
-https://bookify-tau-plum.vercel.app
-
-
+**Live URL:** https://bookify-tau-plum.vercel.app
