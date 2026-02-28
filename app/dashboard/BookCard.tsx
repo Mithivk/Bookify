@@ -1,5 +1,6 @@
 "use client";
 
+import { Cossette_Texte } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -13,7 +14,7 @@ export default function BookCard({ book }: { book: any }) {
   const [author, setAuthor] = useState(book.author);
   const [tags, setTags] = useState(book.tags?.join(", ") || "");
   const [status, setStatus] = useState(book.status);
-
+  const [loading, setLoading] = useState(false);
   if (!book) return null;
 
   async function updateStatus(status: string) {
@@ -46,6 +47,7 @@ export default function BookCard({ book }: { book: any }) {
   }
 
   async function deleteBook() {
+    setLoading(true);
     await fetch(`/api/books/${book._id}`, { method: "DELETE" });
     router.refresh();
   }
@@ -197,7 +199,7 @@ export default function BookCard({ book }: { book: any }) {
                 onClick={deleteBook}
                 className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg"
               >
-                Delete
+                {loading ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>

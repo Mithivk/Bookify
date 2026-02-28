@@ -3,28 +3,18 @@ import { getCurrentUser } from "@/lib/getCurrentUser";
 import { redirect } from "next/navigation";
 import DashboardStats from "./DashboardStats";
 import BookList from "./BookList";
-import { cookies } from "next/headers";
 import { Suspense } from "react";
 import BookLoader from "../components/BookLoader";
 import LogoutButton from "../components/LogOutBUtton";
-async function getBooks() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""}/api/books`, {
-  cache: "no-store",
-  headers: {
-    ...(token && { Cookie: `token=${token}` }),
-  },
-});
-  if (!res.ok) throw new Error("Failed to fetch books");
-  return res.json();
-}
+import { getBooks } from "@/lib/getBooks";
+
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
-  const books = await getBooks();
+  const books = await getBooks(user._id.toString());
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-stone-100">
@@ -51,7 +41,7 @@ export default async function DashboardPage() {
         <Suspense fallback={<div className="h-32 animate-pulse bg-stone-200 rounded-xl" />}>
           <DashboardStats books={books} />
         </Suspense>
-        
+
         <Suspense fallback={<BookLoader />}>
           <BookList books={books} />
         </Suspense>
