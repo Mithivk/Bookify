@@ -9,12 +9,12 @@ import BookLoader from "../components/BookLoader";
 import LogoutButton from "../components/LogOutBUtton";
 async function getBooks() {
   const cookieStore = await cookies();
-  const res = await fetch("/api/books", {
-    cache: "no-store",
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
+const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""}/api/books`, {
+  cache: "no-store",
+  headers: {
+    Cookie: cookieStore.toString(),
+  },
+});
   if (!res.ok) throw new Error("Failed to fetch books");
   return res.json();
 }
