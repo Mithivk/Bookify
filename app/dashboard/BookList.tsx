@@ -6,7 +6,7 @@ import BookCard from "./BookCard";
 export default function BookList({ books }: { books: any[] }) {
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [tagFilter, setTagFilter] = useState<string>("");
-
+  const [open, setOpen] = useState<boolean>(false);
   const filteredBooks = books.filter((book) => {
   const statusMatch =
     statusFilter === "ALL" || book.status === statusFilter;
