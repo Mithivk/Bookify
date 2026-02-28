@@ -9,10 +9,32 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+   function validate() {
+    if (name.trim().length < 2) {
+      return "Name must be at least 2 characters.";
+    }
+    if (!email.includes("@")) {
+      return "Please enter a valid email address.";
+    }
+    if (password.length < 8) {
+      return "Password must be at least 8 characters.";
+    }
+    return "";
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setLoading(true);
 
     const res = await fetch("/api/auth/signup", {
       method: "POST",
@@ -23,11 +45,13 @@ export default function SignupPage() {
     if (!res.ok) {
       const data = await res.json();
       setError(data.error || "Signup failed");
+      setLoading(false);
       return;
     }
 
     router.push("/dashboard");
   }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -95,7 +119,10 @@ export default function SignupPage() {
             type="submit"
             className="w-full rounded-lg bg-green-500 py-3 font-medium text-white hover:bg-green-600"
           >
-            Create account →
+            {loading && (
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            )}
+            {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 

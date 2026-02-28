@@ -2,8 +2,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+type Book = {
+  status: "WANT_TO_READ" | "READING" | "COMPLETED";
+};
 
-export default function DashboardStats({ books }: any[]) {
+type Props = {
+  books: Book[];
+};
+
+export default function DashboardStats({ books }: Props) {
   const stats = {
     total: books.length,
     want: books.filter((b: any) => b.status === "WANT_TO_READ").length,

@@ -185,7 +185,7 @@ export default function AddBookModal({ onClose }: Props) {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2 rounded-lg bg-gradient-to-r from-amber-600 to-amber-700 text-white text-sm font-medium disabled:opacity-60 shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                  className="px-5 py-2 rounded-lg bg-black text-white text-sm font-medium disabled:opacity-60 shadow-md hover:shadow-lg transition-all flex items-center gap-2"
                 >
                   {loading ? (
                     <>

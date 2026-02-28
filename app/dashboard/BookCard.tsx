@@ -34,7 +34,10 @@ export default function BookCard({ book }: { book: any }) {
         title,
         author,
         status,
-        tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
+        tags: tags
+  .split(",")
+  .map((t: string) => t.trim())
+  .filter(Boolean),
       }),
     });
 
@@ -116,27 +119,28 @@ export default function BookCard({ book }: { book: any }) {
             </h3>
 
             <div className="space-y-3">
+                <h3>Title</h3>
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full border rounded-lg px-3 py-2"
                 placeholder="Title"
               />
-
+                <h3>Author</h3>
               <input
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 className="w-full border rounded-lg px-3 py-2"
                 placeholder="Author"
               />
-
+                <h3>Tags (comma separated)</h3>
               <input
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
                 className="w-full border rounded-lg px-3 py-2"
                 placeholder="Tags (comma separated)"
               />
-
+                <h3>Status</h3>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}

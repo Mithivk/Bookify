@@ -8,10 +8,29 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+   function validate() {
+    if (!email || !password) {
+      return "Email and password are required.";
+    }
+    if (!email.includes("@")) {
+      return "Please enter a valid email address.";
+    }
+    return "";
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setLoading(true);
 
     const res = await fetch("/api/auth/login", {
       method: "POST",
@@ -22,6 +41,7 @@ export default function LoginPage() {
     if (!res.ok) {
       const data = await res.json();
       setError(data.error || "Login failed");
+      setLoading(false);
       return;
     }
 
@@ -78,7 +98,10 @@ export default function LoginPage() {
             type="submit"
             className="w-full rounded-lg bg-green-500 py-3 font-medium text-white hover:bg-green-600"
           >
-            Log in
+            {loading && (
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            )}
+            {loading ? "Logging in..." : "Log in"}
           </button>
         </form>
 
