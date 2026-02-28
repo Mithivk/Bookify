@@ -2,13 +2,27 @@
 
 import { useState } from "react";
 import BookCard from "./BookCard";
-import AddBookModal from "./AddBookModal";
 
 export default function BookList({ books }: { books: any[] }) {
-  const [open, setOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [tagFilter, setTagFilter] = useState<string>("");
+
+  const filteredBooks = books.filter((book) => {
+  const statusMatch =
+    statusFilter === "ALL" || book.status === statusFilter;
+
+  const tagMatch =
+    !tagFilter ||
+    (Array.isArray(book.tags) &&
+      book.tags.some((tag: string) =>
+        tag.toLowerCase().includes(tagFilter.toLowerCase().trim())
+      ));
+
+  return statusMatch && tagMatch;
+});
 
   return (
-    <section className="space-y-4">
+    <div className="space-y-4">
       {/* HEADER */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-900">
@@ -22,20 +36,38 @@ export default function BookList({ books }: { books: any[] }) {
           + Add Book
         </button>
       </div>
+      {/* FILTER BAR */}
+      <div className="flex flex-wrap gap-3 items-center text-gray-700">
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="border rounded-lg px-3 py-2 text-sm"
+        >
+          <option value="ALL">All Statuses</option>
+          <option value="WANT_TO_READ">Want to Read</option>
+          <option value="READING">Reading</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
 
-      {/* LIST */}
-      {books.length === 0 ? (
-        <p className="text-gray-600">
-          Your reading journey starts here.
+        <input
+          type="text"
+          placeholder="Filter by tag"
+          value={tagFilter}
+          onChange={(e) => setTagFilter(e.target.value)}
+          className="border rounded-lg px-3 py-2 text-sm"
+        />
+      </div>
+
+      {/* BOOK LIST */}
+      {filteredBooks.length === 0 ? (
+        <p className="text-sm text-gray-600">
+          No books match the selected filters.
         </p>
       ) : (
-        books.map((book) => (
+        filteredBooks.map((book) => (
           <BookCard key={book._id} book={book} />
         ))
       )}
-
-      {/* MODAL */}
-      {open && <AddBookModal onClose={() => setOpen(false)} />}
-    </section>
+    </div>
   );
 }
