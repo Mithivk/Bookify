@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
 export async function getCurrentUser() {
-  const cookieStore = await cookies(); // ✅ IMPORTANT
+  const cookieStore =  cookies();
   const token = cookieStore.get("token")?.value;
 
   if (!token) return null;
