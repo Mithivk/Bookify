@@ -1,22 +1,30 @@
 import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
+import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
+type JwtPayload = {
+  userId: string;
+};
+
 export async function getCurrentUser() {
-  const cookieStore =  cookies();
-  const token = cookieStore.get("token")?.value;
-
-  if (!token) return null;
-
   try {
-    const { userId } = verifyToken(token);
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) return null;
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) return null;
+
+    const decoded = jwt.verify(token, secret) as JwtPayload;
 
     await connectDB();
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(decoded.userId).select("-password");
 
-    return user;
-  } catch {
-    return null;
+    return user ?? null;
+  } catch (err) {
+    console.error("getCurrentUser error:", err);
+    return null; // NEVER throw
   }
 }
