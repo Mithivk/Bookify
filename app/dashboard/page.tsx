@@ -6,7 +6,7 @@ import BookList from "./BookList";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import BookLoader from "../components/BookLoader";
-
+import LogoutButton from "../components/LogOutBUtton";
 async function getBooks() {
   const cookieStore = await cookies();
   const res = await fetch("http://localhost:3000/api/books", {
@@ -41,6 +41,7 @@ export default async function DashboardPage() {
             <span className="text-sm text-gray-600 bg-stone-100 px-3 py-1 rounded-full">
               {user.name}
             </span>
+            <LogoutButton />
           </div>
         </div>
       </header>
