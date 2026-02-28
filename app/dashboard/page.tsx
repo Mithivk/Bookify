@@ -9,7 +9,7 @@ import BookLoader from "../components/BookLoader";
 import LogoutButton from "../components/LogOutBUtton";
 async function getBooks() {
   const cookieStore = await cookies();
-  const res = await fetch("http://localhost:3000/api/books", {
+  const res = await fetch("/api/books", {
     cache: "no-store",
     headers: {
       Cookie: cookieStore.toString(),
