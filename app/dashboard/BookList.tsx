@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import BookCard from "./BookCard";
-
+import AddBookModal from "./AddBookModal";
 export default function BookList({ books }: { books: any[] }) {
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [tagFilter, setTagFilter] = useState<string>("");
@@ -68,6 +68,8 @@ export default function BookList({ books }: { books: any[] }) {
           <BookCard key={book._id} book={book} />
         ))
       )}
+      {/* MODAL */}
+      {open && <AddBookModal onClose={() => setOpen(false)} />}
     </div>
   );
 }
